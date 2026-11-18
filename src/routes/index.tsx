@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { MotionConfig } from "framer-motion";
 import { SiteHeader } from "@/components/site/SiteHeader";
-import { Hero, IntroCurtain } from "@/components/site/Hero";
+import { IntroCurtain } from "@/components/site/Hero";
+import { ActsStage } from "@/components/site/three-acts/ActsStage";
 import { Story } from "@/components/site/Story";
 import { SignatureMenu } from "@/components/site/SignatureMenu";
 import { Experience } from "@/components/site/Experience";
@@ -43,7 +44,7 @@ function Index() {
       </a>
       <SiteHeader />
       <main id="main">
-        <Hero />
+        <ActsStage />
         <Story />
         <Marquee className="bg-background" items={["Ghee Roast Dosa", "Madras Filter Coffee", "Banana-Leaf Meals", "Est. 1985"]} />
         <SignatureMenu />

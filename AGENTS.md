@@ -34,4 +34,5 @@ use the editor.
 - Content (dishes, contact, gallery) lives in `src/lib/site-data.ts`; booking rules in `src/lib/reservation.ts` with tests in `src/test/` — keep copy/data out of components so it stays testable.
 - `.theme-paper` / `.theme-charcoal` re-scope the shadcn tokens per section; use them instead of per-component colours.
 - Motion uses framer-motion wrapped in `MotionConfig reducedMotion="user"`; reusable motion primitives (Reveal, Tilt, Marquee, Embers, CursorRing, ScrollProgress) live in `src/components/site/motion.tsx`; CSS keyframes have a reduced-motion override in `src/styles.css` — pointer effects must stay mouse-only.
+- Opening is the pinned 3D "Three Acts" stage in `src/components/site/three-acts/` (R3F, lazy-loaded, procedural dishes, photo fallback without WebGL); scroll maths live in `src/lib/acts.ts` with tests — keep rules out of the 3D components.
 <!-- AGENT-MEMORY:END -->
