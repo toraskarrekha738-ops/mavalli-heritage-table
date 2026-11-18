@@ -28,3 +28,10 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+<!-- AGENT-MEMORY:BEGIN -->
+- Single-page site: `/` composes section components from `src/components/site/`; nav uses in-page anchors via `scrollToId` (user asked for one scrolling page with anchors).
+- Content (dishes, contact, gallery) lives in `src/lib/site-data.ts`; booking rules in `src/lib/reservation.ts` with tests in `src/test/` — keep copy/data out of components so it stays testable.
+- `.theme-paper` / `.theme-charcoal` re-scope the shadcn tokens per section; use them instead of per-component colours.
+- Motion uses framer-motion wrapped in `MotionConfig reducedMotion="user"`; CSS keyframes have a reduced-motion override in `src/styles.css`.
+<!-- AGENT-MEMORY:END -->
