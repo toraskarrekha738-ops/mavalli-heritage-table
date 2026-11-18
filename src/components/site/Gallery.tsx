@@ -5,7 +5,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 import { GALLERY } from "@/lib/site-data";
 import { SectionEyebrow } from "./brand";
-import { EASE, Reveal, SplitReveal } from "./motion";
+import { EASE, Reveal, SplitReveal, Tilt } from "./motion";
 
 function Lightbox({ index, onClose, onIndex }: { index: number | null; onClose: () => void; onIndex: (i: number) => void }) {
   const open = index !== null;
@@ -110,13 +110,14 @@ export function Gallery() {
           {GALLERY.map((g, i) => (
             <motion.li
               key={g.src}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 50, clipPath: "inset(18% 8% 18% 8%)" }}
+              whileInView={{ opacity: 1, y: 0, clipPath: "inset(0% 0% 0% 0%)" }}
               viewport={{ once: true, margin: "0px 0px -8% 0px" }}
-              transition={{ duration: 0.9, ease: EASE, delay: (i % 3) * 0.1 }}
-              className="break-inside-avoid"
+              transition={{ duration: 1.1, ease: EASE, delay: (i % 3) * 0.12 }}
+              className="group break-inside-avoid"
             >
               <figure>
+                <Tilt max={4} className="rounded-md">
                 <button
                   type="button"
                   onClick={() => setIndex(i)}
@@ -131,15 +132,17 @@ export function Gallery() {
                     height={g.height}
                     loading="lazy"
                     decoding="async"
-                    className="h-full w-full object-cover transition-transform duration-[1.4s] ease-[var(--ease-luxe)] group-hover:scale-105"
+                    className="h-full w-full object-cover transition-transform duration-[1.4s] ease-[var(--ease-luxe)] group-hover:scale-110"
                   />
+                  <span className="shine-sweep" aria-hidden />
                   <span className="bg-card-image absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100" aria-hidden />
-                  <span className="glass absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full text-ivory opacity-0 transition-all duration-500 group-hover:opacity-100 group-focus-visible:opacity-100" aria-hidden>
+                  <span className="glass absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full text-ivory opacity-0 transition-all duration-500 group-hover:rotate-90 group-hover:opacity-100 group-focus-visible:opacity-100" aria-hidden>
                     <Expand className="h-4 w-4" />
                   </span>
                 </button>
+                </Tilt>
                 <figcaption className="mt-3 flex items-baseline justify-between gap-3">
-                  <span className="font-display text-lg italic">{g.caption}</span>
+                  <span className="font-display text-lg italic transition-[color,transform] duration-500 group-hover:translate-x-1 group-hover:text-primary">{g.caption}</span>
                   <span className="eyebrow text-[0.58rem] text-primary">{String(i + 1).padStart(2, "0")}</span>
                 </figcaption>
               </figure>

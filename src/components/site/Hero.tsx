@@ -1,9 +1,9 @@
 import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 import { ArrowDownRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { IMAGES } from "@/lib/site-data";
-import { EASE, Magnetic, SplitReveal, scrollToId } from "./motion";
+import { EASE, Embers, Magnetic, SplitReveal, scrollToId } from "./motion";
 import { Wordmark } from "./brand";
 
 const INTRO_DELAY = 1.25;
@@ -51,6 +51,15 @@ export function Hero() {
   const imgScale = useTransform(scrollYProgress, [0, 1], [1.06, reduce ? 1.06 : 1.16]);
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", reduce ? "0%" : "22%"]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  // pointer parallax: image drifts against the mouse, stamp drifts with it
+  const px = useMotionValue(0);
+  const py = useMotionValue(0);
+  const spx = useSpring(px, { stiffness: 60, damping: 20 });
+  const spy = useSpring(py, { stiffness: 60, damping: 20 });
+  const imgPX = useTransform(spx, (v) => v * -18);
+  const imgPY = useTransform(spy, (v) => v * -12);
+  const stampPX = useTransform(spx, (v) => v * 26);
+  const stampPY = useTransform(spy, (v) => v * 18);
 
   return (
     <section
@@ -58,8 +67,19 @@ export function Hero() {
       ref={ref}
       aria-label="Welcome"
       className="theme-charcoal grain relative isolate flex min-h-[100svh] items-end overflow-hidden"
+      onPointerMove={(e) => {
+        if (reduce || e.pointerType !== "mouse") return;
+        const r = e.currentTarget.getBoundingClientRect();
+        px.set((e.clientX - r.left) / r.width - 0.5);
+        py.set((e.clientY - r.top) / r.height - 0.5);
+      }}
+      onPointerLeave={() => {
+        px.set(0);
+        py.set(0);
+      }}
     >
-      <motion.div className="absolute inset-0 -z-10" style={{ y: imgY, scale: imgScale }}>
+      <motion.div className="absolute -inset-6 -z-10" style={{ y: imgY, scale: imgScale }}>
+        <motion.div className="h-full w-full" style={{ x: imgPX, translateY: imgPY }}>
         <motion.img
           src={IMAGES.heroDosa}
           alt="A crisp golden ghee roast dosa on a brass plate with coconut chutney and sambar"
@@ -72,9 +92,11 @@ export function Hero() {
           transition={{ duration: 2.4, ease: EASE, delay: 0.9 }}
           className="h-full w-full object-cover object-[68%_center]"
         />
+        </motion.div>
       </motion.div>
       <div className="bg-hero-overlay absolute inset-0 -z-10" aria-hidden />
       <div className="bg-fade-bottom absolute inset-0 -z-10" aria-hidden />
+      <Embers className="-z-10" />
 
       <motion.div
         style={{ y: contentY, opacity: contentOpacity }}
@@ -86,7 +108,13 @@ export function Hero() {
           transition={{ duration: 1, ease: EASE, delay: INTRO_DELAY }}
           className="eyebrow flex items-center gap-4 text-primary"
         >
-          <span className="h-px w-10 bg-current" />A Taste of Southern Roots · Est. 1985
+          <motion.span
+            className="h-px w-10 origin-left bg-current"
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 1.2, ease: EASE, delay: INTRO_DELAY + 0.2 }}
+          />
+          A Taste of Southern Roots · Est. 1985
         </motion.p>
 
         <h1 className="display-xl mt-7 max-w-5xl">
@@ -150,7 +178,9 @@ export function Hero() {
         transition={{ duration: 1.4, ease: EASE, delay: INTRO_DELAY + 1.1 }}
         className="absolute right-[6%] top-[22%] hidden md:block lg:top-[26%]"
       >
-        <Stamp />
+        <motion.div style={{ x: stampPX, y: stampPY }}>
+          <Stamp />
+        </motion.div>
         <span className="sr-only">Made slowly. Served warmly.</span>
       </motion.div>
 

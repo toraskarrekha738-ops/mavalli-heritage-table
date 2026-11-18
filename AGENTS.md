@@ -33,5 +33,5 @@ use the editor.
 - Single-page site: `/` composes section components from `src/components/site/`; nav uses in-page anchors via `scrollToId` (user asked for one scrolling page with anchors).
 - Content (dishes, contact, gallery) lives in `src/lib/site-data.ts`; booking rules in `src/lib/reservation.ts` with tests in `src/test/` — keep copy/data out of components so it stays testable.
 - `.theme-paper` / `.theme-charcoal` re-scope the shadcn tokens per section; use them instead of per-component colours.
-- Motion uses framer-motion wrapped in `MotionConfig reducedMotion="user"`; CSS keyframes have a reduced-motion override in `src/styles.css`.
+- Motion uses framer-motion wrapped in `MotionConfig reducedMotion="user"`; reusable motion primitives (Reveal, Tilt, Marquee, Embers, CursorRing, ScrollProgress) live in `src/components/site/motion.tsx`; CSS keyframes have a reduced-motion override in `src/styles.css` — pointer effects must stay mouse-only.
 <!-- AGENT-MEMORY:END -->

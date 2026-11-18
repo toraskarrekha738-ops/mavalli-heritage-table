@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 /** Soft rising steam wisps, positioned by the caller over a hot cup. */
@@ -78,7 +79,13 @@ export function SectionEyebrow({ index, label, className }: { index: string; lab
   return (
     <p className={cn("eyebrow flex items-center gap-4 text-primary", className)}>
       <span className="font-display text-base tracking-normal italic">{index}</span>
-      <span className="h-px w-10 bg-current opacity-50" />
+      <motion.span
+        className="h-px w-10 origin-left bg-current opacity-50"
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+      />
       {label}
     </p>
   );

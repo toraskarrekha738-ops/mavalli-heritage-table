@@ -6,7 +6,7 @@ import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from 
 import { NAV_LINKS, CONTACT } from "@/lib/site-data";
 import { cn } from "@/lib/utils";
 import { Wordmark } from "./brand";
-import { EASE, Magnetic, scrollToId } from "./motion";
+import { EASE, Magnetic, ScrollProgress, scrollToId } from "./motion";
 
 function useActiveSection() {
   const [active, setActive] = useState<string>("home");
@@ -64,9 +64,11 @@ export function SiteHeader() {
         transition={{ duration: 1, ease: EASE, delay: 1.5 }}
         className={cn(
           "border-b transition-[background-color,border-color,backdrop-filter] duration-500",
+          "relative",
           scrolled ? "glass border-border" : "border-transparent bg-transparent",
         )}
       >
+        <ScrollProgress className="absolute inset-x-0 -bottom-px" />
         <nav aria-label="Primary" className="container-luxe flex h-[4.5rem] items-center justify-between gap-6">
           <a href="#home" onClick={go("home")} className="rounded-sm" aria-label="Mavalli Heritage — back to top">
             <Wordmark />

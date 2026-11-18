@@ -12,19 +12,22 @@ import {
 import { MENU_CATEGORIES, SIGNATURE_DISHES, formatPrice, type Dish } from "@/lib/site-data";
 import { cn } from "@/lib/utils";
 import { Ornament, SectionEyebrow } from "./brand";
-import { EASE, Reveal, SplitReveal, scrollToId } from "./motion";
+import { EASE, Reveal, SplitReveal, Tilt, scrollToId } from "./motion";
 
 function DishCard({ dish, index }: { dish: Dish; index: number }) {
   const category = MENU_CATEGORIES.find((c) => c.id === dish.category)?.label;
   return (
     <motion.article
       layout
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10, transition: { duration: 0.3 } }}
-      transition={{ duration: 0.8, ease: EASE, delay: index * 0.08 }}
-      className="group relative flex flex-col overflow-hidden rounded-lg border border-border bg-card shadow-card transition-[transform,box-shadow] duration-700 ease-[var(--ease-luxe)] hover:-translate-y-2 hover:shadow-lift focus-within:-translate-y-2 focus-within:shadow-lift"
+      initial={{ opacity: 0, y: 60, scale: 0.94, rotate: index % 2 ? 1.5 : -1.5 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
+      viewport={{ once: true, margin: "0px 0px -8% 0px" }}
+      exit={{ opacity: 0, y: -16, scale: 0.96, transition: { duration: 0.3 } }}
+      transition={{ duration: 0.9, ease: EASE, delay: index * 0.1 }}
+      className="group relative h-full"
     >
+      <Tilt className="h-full rounded-lg">
+      <div className="relative flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card shadow-card transition-[transform,box-shadow,border-color] duration-700 ease-[var(--ease-luxe)] group-hover:-translate-y-2 group-hover:border-primary/50 group-hover:shadow-lift group-focus-within:-translate-y-2 group-focus-within:shadow-lift">
       <div className="relative aspect-[4/5] overflow-hidden">
         <img
           src={dish.image}
@@ -36,8 +39,9 @@ function DishCard({ dish, index }: { dish: Dish; index: number }) {
           className="h-full w-full object-cover transition-transform duration-[1.4s] ease-[var(--ease-luxe)] group-hover:scale-[1.08]"
         />
         <div className="bg-card-image absolute inset-0" aria-hidden />
+        <span className="shine-sweep" aria-hidden />
         <div className="absolute inset-x-0 top-0 flex items-start justify-between p-5">
-          <span className="font-display text-2xl italic text-primary">0{SIGNATURE_DISHES.indexOf(dish) + 1}</span>
+          <span className="font-display text-2xl italic text-primary transition-transform duration-700 ease-[var(--ease-luxe)] group-hover:-translate-y-1 group-hover:scale-110">0{SIGNATURE_DISHES.indexOf(dish) + 1}</span>
           <span className="eyebrow glass rounded-full px-3 py-1.5 text-[0.58rem] text-foreground">{category}</span>
         </div>
         {dish.marker && (
@@ -53,10 +57,12 @@ function DishCard({ dish, index }: { dish: Dish; index: number }) {
         </div>
         <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{dish.description}</p>
         <div className="mt-6 flex items-center gap-3">
-          <span className="h-px flex-1 border-t border-dashed border-border" aria-hidden />
-          <span className="font-display text-2xl text-primary">{formatPrice(dish.price)}</span>
+          <span className="h-px flex-1 origin-left border-t border-dashed border-border transition-[border-color] duration-700 group-hover:border-primary/60" aria-hidden />
+          <span className="font-display text-2xl text-primary transition-transform duration-500 ease-[var(--ease-luxe)] group-hover:scale-110">{formatPrice(dish.price)}</span>
         </div>
       </div>
+      </div>
+      </Tilt>
     </motion.article>
   );
 }
@@ -150,7 +156,7 @@ export function SignatureMenu() {
   return (
     <section id="menu" aria-labelledby="menu-title" className="relative overflow-hidden py-28 sm:py-36">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-80 [mask-image:linear-gradient(to_bottom,black,transparent)]" aria-hidden>
-        <div className="jali h-full w-full opacity-[0.06]" />
+        <div className="jali h-full w-[120%] animate-[jali-drift_40s_linear_infinite] opacity-[0.06]" />
       </div>
       <div className="container-luxe relative">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end">

@@ -1,7 +1,8 @@
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { CONTACT } from "@/lib/site-data";
 import { SectionEyebrow } from "./brand";
-import { Reveal, SplitReveal } from "./motion";
+import { motion } from "framer-motion";
+import { EASE, Reveal, SplitReveal } from "./motion";
 import { ReservationForm } from "./ReservationForm";
 
 /** Decorative, illustrative street motif — intentionally not a real map. */
@@ -10,12 +11,33 @@ function MapMotif() {
     <div className="relative aspect-[16/10] overflow-hidden rounded-lg border border-border bg-card">
       <div className="jali absolute inset-0 opacity-[0.07]" aria-hidden />
       <svg viewBox="0 0 400 250" className="absolute inset-0 h-full w-full text-primary" aria-hidden fill="none" stroke="currentColor">
-        <path d="M-10 170 C 80 150, 140 190, 230 160 S 360 120, 420 140" strokeWidth="10" opacity="0.08" />
-        <path d="M-10 170 C 80 150, 140 190, 230 160 S 360 120, 420 140" strokeWidth="1" opacity="0.5" strokeDasharray="4 6" />
-        <path d="M60 -10 L 120 260" strokeWidth="0.8" opacity="0.35" />
-        <path d="M250 -10 L 210 260" strokeWidth="0.8" opacity="0.35" />
-        <path d="M-10 70 L 410 95" strokeWidth="0.8" opacity="0.35" />
-        <path d="M320 -10 L 360 260" strokeWidth="0.5" opacity="0.25" />
+        <motion.path
+          d="M-10 170 C 80 150, 140 190, 230 160 S 360 120, 420 140"
+          strokeWidth="10"
+          opacity="0.08"
+          initial={{ pathLength: 0 }}
+          whileInView={{ pathLength: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 2.2, ease: EASE }}
+        />
+        <path className="animate-route" d="M-10 170 C 80 150, 140 190, 230 160 S 360 120, 420 140" strokeWidth="1" opacity="0.5" strokeDasharray="4 6" />
+        {[
+          { d: "M60 -10 L 120 260", w: 0.8, o: 0.35 },
+          { d: "M250 -10 L 210 260", w: 0.8, o: 0.35 },
+          { d: "M-10 70 L 410 95", w: 0.8, o: 0.35 },
+          { d: "M320 -10 L 360 260", w: 0.5, o: 0.25 },
+        ].map((r, i) => (
+          <motion.path
+            key={r.d}
+            d={r.d}
+            strokeWidth={r.w}
+            opacity={r.o}
+            initial={{ pathLength: 0 }}
+            whileInView={{ pathLength: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.6, ease: EASE, delay: 0.3 + i * 0.2 }}
+          />
+        ))}
         <rect x="150" y="98" width="46" height="30" strokeWidth="0.8" opacity="0.5" />
         <circle cx="230" cy="112" r="34" strokeWidth="0.6" opacity="0.35" />
         <circle cx="230" cy="112" r="56" strokeWidth="0.4" opacity="0.2" />
@@ -56,11 +78,17 @@ export function Visit() {
             </p>
           </Reveal>
 
-          <Reveal delay={0.15}>
-            <address className="mt-10 grid gap-7 not-italic">
-              {details.map(({ icon: Icon, label, value, note, href }) => (
-                <div key={label} className="flex gap-5 border-t border-border pt-6">
-                  <Icon className="mt-1 h-5 w-5 shrink-0 text-primary" aria-hidden />
+          <address className="mt-10 grid gap-7 not-italic">
+              {details.map(({ icon: Icon, label, value, note, href }, i) => (
+                <motion.div
+                  key={label}
+                  className="group flex gap-5 border-t border-border pt-6"
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "0px 0px -8% 0px" }}
+                  transition={{ duration: 0.9, ease: EASE, delay: i * 0.1 }}
+                >
+                  <Icon className="mt-1 h-5 w-5 shrink-0 text-primary transition-transform duration-500 ease-[var(--ease-luxe)] group-hover:-rotate-12 group-hover:scale-125" aria-hidden />
                   <div>
                     <p className="eyebrow text-[0.6rem] text-muted-foreground">{label}</p>
                     {href ? (
@@ -72,10 +100,9 @@ export function Visit() {
                     )}
                     {note && <p className="mt-1 text-xs italic text-muted-foreground">({note})</p>}
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </address>
-          </Reveal>
+          </address>
 
           <Reveal delay={0.2} className="mt-10">
             <MapMotif />

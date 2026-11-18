@@ -9,6 +9,7 @@ import { Gallery } from "@/components/site/Gallery";
 import { Visit } from "@/components/site/Visit";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { BackToTop } from "@/components/site/BackToTop";
+import { CursorRing, Marquee } from "@/components/site/motion";
 
 const TITLE = "Mavalli Heritage — South Indian Dining (Concept Demo)";
 const DESCRIPTION =
@@ -44,13 +45,20 @@ function Index() {
       <main id="main">
         <Hero />
         <Story />
+        <Marquee className="bg-background" items={["Ghee Roast Dosa", "Madras Filter Coffee", "Banana-Leaf Meals", "Est. 1985"]} />
         <SignatureMenu />
         <Experience />
         <Gallery />
+        <Marquee
+          direction={-1}
+          className="theme-charcoal bg-background"
+          items={["Hand-ground spices", "Slow-fermented batter", "Served warmly", "Open every day"]}
+        />
         <Visit />
       </main>
       <SiteFooter />
       <BackToTop />
+      <CursorRing />
     </MotionConfig>
   );
 }

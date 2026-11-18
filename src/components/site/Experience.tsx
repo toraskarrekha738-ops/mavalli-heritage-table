@@ -43,7 +43,7 @@ function FeaturePanel({ f, i }: { f: (typeof FEATURES)[number]; i: number }) {
       transition={{ duration: 1.1, ease: EASE, delay: i * 0.12 }}
       tabIndex={0}
       aria-labelledby={`feature-${f.id}`}
-      className="group relative isolate flex min-h-[30rem] overflow-hidden rounded-lg border border-border transition-[flex-grow] duration-[900ms] ease-[var(--ease-luxe)] lg:min-h-[38rem] lg:flex-1 lg:hover:flex-[1.6] lg:focus-visible:flex-[1.6]"
+      className="group relative isolate flex min-h-[30rem] overflow-hidden rounded-lg border border-border transition-[flex-grow,border-color] duration-[900ms] hover:border-primary/60 ease-[var(--ease-luxe)] lg:min-h-[38rem] lg:flex-1 lg:hover:flex-[1.6] lg:focus-visible:flex-[1.6]"
     >
       <motion.img
         src={f.image}
@@ -57,10 +57,22 @@ function FeaturePanel({ f, i }: { f: (typeof FEATURES)[number]; i: number }) {
       />
       <div className="bg-card-image absolute inset-0 -z-10" aria-hidden />
       <div className="mt-auto w-full p-7 sm:p-9">
-        <p className="font-display text-5xl font-light italic text-primary">{f.numeral}</p>
+        <motion.p
+          className="font-display text-5xl font-light italic text-primary"
+          initial={{ opacity: 0, x: -24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: EASE, delay: 0.3 + i * 0.12 }}
+        >
+          {f.numeral}
+        </motion.p>
         <h3 id={`feature-${f.id}`} className="display-md mt-3 max-w-xs">
           {f.title}
         </h3>
+        <span
+          aria-hidden
+          className="mt-4 block h-px w-12 origin-left bg-primary transition-transform duration-700 ease-[var(--ease-luxe)] group-hover:scale-x-[4] group-focus-visible:scale-x-[4]"
+        />
         <p className="mt-4 max-w-sm text-sm leading-relaxed text-foreground/80 lg:max-h-0 lg:opacity-0 lg:transition-all lg:duration-700 lg:group-hover:max-h-40 lg:group-hover:opacity-100 lg:group-focus-visible:max-h-40 lg:group-focus-visible:opacity-100">
           {f.text}
         </p>

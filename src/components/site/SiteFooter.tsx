@@ -1,7 +1,8 @@
 import { toast } from "sonner";
+import { motion } from "framer-motion";
 import { NAV_LINKS } from "@/lib/site-data";
 import { Ornament, Wordmark } from "./brand";
-import { scrollToId } from "./motion";
+import { EASE, scrollToId } from "./motion";
 
 const SOCIALS = [
   {
@@ -65,7 +66,7 @@ export function SiteFooter() {
                         description: "Mavalli Heritage is fictional, so there's no real profile to visit.",
                       });
                     }}
-                    className="flex h-12 w-12 items-center justify-center rounded-full border border-border text-foreground/80 transition-all duration-500 hover:-translate-y-1 hover:border-primary hover:text-primary"
+                    className="flex h-12 w-12 items-center justify-center rounded-full border border-border text-foreground/80 transition-all duration-500 hover:-translate-y-1 hover:rotate-[8deg] hover:border-primary hover:bg-primary/10 hover:text-primary"
                   >
                     <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="currentColor" aria-hidden>
                       <path d={s.path} />
@@ -82,8 +83,19 @@ export function SiteFooter() {
         </div>
 
         <Ornament className="mt-20 justify-center" />
-        <p aria-hidden className="mt-10 select-none text-center font-display text-[clamp(3.5rem,13vw,12rem)] font-light leading-none tracking-[0.08em] text-foreground/[0.06]">
-          MAVALLI
+        <p aria-hidden className="mt-10 flex select-none justify-center overflow-hidden font-display text-[clamp(3.5rem,13vw,12rem)] font-light leading-none tracking-[0.08em] text-foreground/[0.08]">
+          {"MAVALLI".split("").map((ch, i) => (
+            <motion.span
+              key={i}
+              className="inline-block transition-colors duration-500 hover:text-primary/40"
+              initial={{ y: "100%", opacity: 0 }}
+              whileInView={{ y: "0%", opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, ease: EASE, delay: i * 0.07 }}
+            >
+              {ch}
+            </motion.span>
+          ))}
         </p>
         <div className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-border pt-8 text-xs text-muted-foreground sm:flex-row">
           <p>© 2026 Mavalli Heritage. Concept demo.</p>
