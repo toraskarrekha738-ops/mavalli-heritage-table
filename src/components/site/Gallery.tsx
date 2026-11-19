@@ -6,6 +6,7 @@ import { X } from "lucide-react";
 import { GALLERY } from "@/lib/site-data";
 import { SectionEyebrow } from "./brand";
 import { EASE, Reveal, SplitReveal, Tilt } from "./motion";
+import { KolamDivider } from "./Kolam";
 
 function Lightbox({ index, onClose, onIndex }: { index: number | null; onClose: () => void; onIndex: (i: number) => void }) {
   const open = index !== null;
@@ -90,7 +91,8 @@ function Lightbox({ index, onClose, onIndex }: { index: number | null; onClose: 
 export function Gallery() {
   const [index, setIndex] = useState<number | null>(null);
   return (
-    <section id="gallery" aria-labelledby="gallery-title" className="theme-paper paper-texture py-28 sm:py-36">
+    <section id="gallery" aria-labelledby="gallery-title" className="theme-paper paper-texture edge-arches py-28 sm:py-36 [--edge-from:var(--charcoal)] [--edge-to:var(--charcoal)]">
+      <KolamDivider className="mb-16 sm:mb-24" />
       <div className="container-luxe">
         <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-8">

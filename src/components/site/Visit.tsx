@@ -4,6 +4,7 @@ import { SectionEyebrow } from "./brand";
 import { motion } from "framer-motion";
 import { EASE, Reveal, SplitReveal } from "./motion";
 import { ReservationForm } from "./ReservationForm";
+import { KolamDivider } from "./Kolam";
 
 /** Decorative, illustrative street motif — intentionally not a real map. */
 function MapMotif() {
@@ -63,6 +64,7 @@ export function Visit() {
   ];
   return (
     <section id="visit" aria-labelledby="visit-title" className="relative overflow-hidden py-28 sm:py-36">
+      <KolamDivider className="mb-16 sm:mb-24" />
       <div className="container-luxe grid gap-16 lg:grid-cols-12 lg:gap-12">
         <div className="lg:col-span-5">
           <Reveal>

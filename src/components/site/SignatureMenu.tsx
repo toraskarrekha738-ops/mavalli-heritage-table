@@ -9,13 +9,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { MENU_CATEGORIES, SIGNATURE_DISHES, formatPrice, type Dish } from "@/lib/site-data";
+import { DISH_ACTS, MENU_CATEGORIES, SIGNATURE_DISHES, formatPrice, type Dish } from "@/lib/site-data";
 import { cn } from "@/lib/utils";
 import { Ornament, SectionEyebrow } from "./brand";
 import { EASE, Reveal, SplitReveal, Tilt, scrollToId } from "./motion";
+import { KolamDivider } from "./Kolam";
 
 function DishCard({ dish, index }: { dish: Dish; index: number }) {
   const category = MENU_CATEGORIES.find((c) => c.id === dish.category)?.label;
+  const act = DISH_ACTS[dish.id];
   return (
     <motion.article
       layout
@@ -28,6 +30,7 @@ function DishCard({ dish, index }: { dish: Dish; index: number }) {
     >
       <Tilt className="h-full rounded-lg">
       <div className="relative flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card shadow-card transition-[transform,box-shadow,border-color] duration-700 ease-[var(--ease-luxe)] group-hover:-translate-y-2 group-hover:border-primary/50 group-hover:shadow-lift group-focus-within:-translate-y-2 group-focus-within:shadow-lift">
+      <span className="corner-frame pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-700 group-hover:opacity-70 group-focus-within:opacity-70" aria-hidden />
       <div className="relative aspect-[4/5] overflow-hidden">
         <img
           src={dish.image}
@@ -52,6 +55,21 @@ function DishCard({ dish, index }: { dish: Dish; index: number }) {
         )}
       </div>
       <div className="flex flex-1 flex-col p-6">
+        <p className="eyebrow mb-3 flex items-center gap-3 text-[0.6rem] text-primary">
+          {act ? (
+            <>
+              <span className="font-display text-sm tracking-normal italic">Act {act.numeral}</span>
+              <span className="h-px w-6 bg-current opacity-50" aria-hidden />
+              {act.title}
+            </>
+          ) : (
+            <>
+              <span className="font-display text-sm tracking-normal italic">Encore</span>
+              <span className="h-px w-6 bg-current opacity-50" aria-hidden />
+              {category}
+            </>
+          )}
+        </p>
         <div className="flex items-baseline gap-3">
           <h3 className="font-display text-[1.7rem] leading-tight">{dish.name}</h3>
         </div>
@@ -158,6 +176,7 @@ export function SignatureMenu() {
       <div className="pointer-events-none absolute inset-x-0 top-0 h-80 [mask-image:linear-gradient(to_bottom,black,transparent)]" aria-hidden>
         <div className="jali h-full w-[120%] animate-[jali-drift_40s_linear_infinite] opacity-[0.06]" />
       </div>
+      <KolamDivider className="relative mb-16 sm:mb-24" />
       <div className="container-luxe relative">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">

@@ -99,3 +99,25 @@ export function papadTexture() {
     }
   });
 }
+
+/** Steamed white rice: densely packed small grains with soft shadows between them. */
+export function riceGrainTexture() {
+  const r = rng(17);
+  return canvasTex(512, (c, s) => {
+    c.fillStyle = "#d8cfb8";
+    c.fillRect(0, 0, s, s);
+    for (let i = 0; i < 5200; i++) {
+      const x = r() * s, y = r() * s, a = r() * Math.PI;
+      const l = 6 + r() * 4;
+      c.fillStyle = `rgba(${150 + r() * 30},${140 + r() * 30},${115 + r() * 25},0.5)`;
+      c.beginPath();
+      c.ellipse(x + 1, y + 1.5, l, l * 0.38, a, 0, Math.PI * 2);
+      c.fill();
+      const v = 238 + r() * 17;
+      c.fillStyle = `rgb(${v},${v - 4},${v - 16})`;
+      c.beginPath();
+      c.ellipse(x, y, l, l * 0.36, a, 0, Math.PI * 2);
+      c.fill();
+    }
+  }, 3);
+}

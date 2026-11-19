@@ -547,3 +547,43 @@
     display: none;
   }
 }
+
+/* Temple-arch scalloped edges where an ivory section meets a dark one.
+   Set --edge-from / --edge-to to the neighbouring section's colour. */
+@utility edge-arches {
+  position: relative;
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 14px;
+    pointer-events: none;
+    z-index: 1;
+    -webkit-mask: radial-gradient(circle at 50% 0, black 13px, transparent 14px) repeat-x 0 0 / 32px 14px;
+    mask: radial-gradient(circle at 50% 0, black 13px, transparent 14px) repeat-x 0 0 / 32px 14px;
+  }
+  &::before {
+    top: 0;
+    background: var(--edge-from, var(--charcoal));
+  }
+  &::after {
+    bottom: 0;
+    transform: scaleY(-1);
+    background: var(--edge-to, var(--espresso));
+  }
+}
+
+/* Brass corner brackets for framed cards */
+@utility corner-frame {
+  background:
+    linear-gradient(var(--primary), var(--primary)) top 12px left 12px / 18px 1px no-repeat,
+    linear-gradient(var(--primary), var(--primary)) top 12px left 12px / 1px 18px no-repeat,
+    linear-gradient(var(--primary), var(--primary)) top 12px right 12px / 18px 1px no-repeat,
+    linear-gradient(var(--primary), var(--primary)) top 12px right 12px / 1px 18px no-repeat,
+    linear-gradient(var(--primary), var(--primary)) bottom 12px left 12px / 18px 1px no-repeat,
+    linear-gradient(var(--primary), var(--primary)) bottom 12px left 12px / 1px 18px no-repeat,
+    linear-gradient(var(--primary), var(--primary)) bottom 12px right 12px / 18px 1px no-repeat,
+    linear-gradient(var(--primary), var(--primary)) bottom 12px right 12px / 1px 18px no-repeat;
+}

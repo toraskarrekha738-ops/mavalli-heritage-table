@@ -2,17 +2,21 @@ import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ClientOnly } from "@tanstack/react-router";
 import { ArrowDown, SkipForward } from "lucide-react";
-import { SIGNATURE_DISHES, formatPrice } from "@/lib/site-data";
+import { DISH_ACTS, SIGNATURE_DISHES, formatPrice } from "@/lib/site-data";
 import { ACT_COUNT, actIndex } from "@/lib/acts";
 import { EASE, scrollToId } from "../motion";
 
 const ActsCanvas = lazy(() => import("./ActsCanvas"));
 
-const ACTS = [
-  { dish: SIGNATURE_DISHES[0]!, numeral: "I", title: "The crackle", labels: ["Ghee-roasted crêpe", "Spiced potato masala", "Coconut & tomato chutney"] },
-  { dish: SIGNATURE_DISHES[1]!, numeral: "II", title: "The aroma", labels: ["Seeraga samba rice", "Tender chicken", "Fried onions & mint"] },
-  { dish: SIGNATURE_DISHES[2]!, numeral: "III", title: "The feast", labels: ["Sambar · rasam", "Kootu · poriyal", "Papad · payasam"] },
+const LABELS = [
+  ["Ghee-roasted crêpe", "Spiced potato masala", "Coconut & tomato chutney"],
+  ["Seeraga samba rice", "Tender chicken", "Fried onions & mint"],
+  ["Sambar · rasam", "Kootu · poriyal", "Papad · payasam"],
 ];
+const ACTS = LABELS.map((labels, i) => {
+  const dish = SIGNATURE_DISHES[i]!;
+  return { dish, labels, ...DISH_ACTS[dish.id]! };
+});
 
 function useWebGL() {
   const [ok, setOk] = useState<boolean | null>(null);

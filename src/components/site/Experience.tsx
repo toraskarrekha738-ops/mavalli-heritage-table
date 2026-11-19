@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { IMAGES } from "@/lib/site-data";
 import { SectionEyebrow } from "./brand";
 import { EASE, Reveal, SplitReveal, useParallax } from "./motion";
+import { KolamDivider } from "./Kolam";
 
 const FEATURES = [
   {
@@ -84,6 +85,7 @@ function FeaturePanel({ f, i }: { f: (typeof FEATURES)[number]; i: number }) {
 export function Experience() {
   return (
     <section aria-labelledby="experience-title" className="theme-charcoal relative py-28 sm:py-36">
+      <KolamDivider className="mb-16 sm:mb-24" />
       <div className="container-luxe">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div>

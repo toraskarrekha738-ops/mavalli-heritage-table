@@ -4,6 +4,7 @@ import { IMAGES, ESTABLISHED } from "@/lib/site-data";
 import { SectionEyebrow, Steam } from "./brand";
 import { Counter } from "./Counter";
 import { EASE, MaskImage, Reveal, SplitReveal, useParallax } from "./motion";
+import { KolamDivider } from "./Kolam";
 
 const PILLARS = [
   { title: "Hand-ground", text: "Every spice, ground by hand." },
@@ -17,7 +18,8 @@ export function Story() {
   const riseFast = useParallax(collageRef, -50);
   const riseSlow = useParallax(collageRef, 30);
   return (
-    <section id="story" aria-labelledby="story-title" className="theme-paper paper-texture relative overflow-hidden py-28 sm:py-36">
+    <section id="story" aria-labelledby="story-title" className="theme-paper paper-texture edge-arches relative overflow-hidden py-28 sm:py-36 [--edge-from:var(--charcoal)] [--edge-to:var(--espresso)]">
+      <KolamDivider className="mb-16 sm:mb-24" />
       <div className="jali animate-spin-slower pointer-events-none absolute -right-20 top-0 h-[420px] w-[420px] rounded-full opacity-[0.07]" aria-hidden />
       <div className="container-luxe grid gap-16 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-5 lg:pt-10">

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { ContactShadows, Environment, Lightformer } from "@react-three/drei";
 import * as THREE from "three";
@@ -17,12 +17,22 @@ interface Props {
 
 const DAMP = 7;
 
+/** Fires once textures have loaded and a frame has drawn. */
+function ReadySignal({ onReady }: { onReady: () => void }) {
+  const done = useRef(false);
+  useFrame(() => {
+    if (done.current) return;
+    done.current = true;
+    requestAnimationFrame(() => onReady());
+  });
+  return null;
+}
+
 function Stage({ progress, reduce, lite, onReady }: Props) {
   const dishes = useRef<(THREE.Group | null)[]>([]);
   const halo = useRef<THREE.Mesh>(null);
   const motes = useRef<THREE.Points>(null);
   const smooth = useRef(progress.get());
-  const ready = useRef(false);
 
   const count = lite ? 60 : 150;
   const moteGeo = useMemo(() => {
@@ -37,7 +47,7 @@ function Stage({ progress, reduce, lite, onReady }: Props) {
     return g;
   }, [count]);
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     const dt = Math.min(delta, 0.05);
     smooth.current += (progress.get() - smooth.current) * (1 - Math.exp(-DAMP * dt));
     const p = smooth.current;
@@ -61,10 +71,6 @@ function Stage({ progress, reduce, lite, onReady }: Props) {
         arr.setY(i, y);
       }
       arr.needsUpdate = true;
-    }
-    if (!ready.current && state.clock.elapsedTime > 0.3) {
-      ready.current = true;
-      onReady();
     }
   });
 
@@ -98,9 +104,12 @@ function Stage({ progress, reduce, lite, onReady }: Props) {
         </points>
       )}
       <group position={[0, -0.4, 0]} scale={0.95}>
-        {slot(0, <Dosa />)}
-        {slot(1, <Biryani lite={lite} />)}
-        {slot(2, <Thali />)}
+        <Suspense fallback={null}>
+          {slot(0, <Dosa />)}
+          {slot(1, <Biryani lite={lite} />)}
+          {slot(2, <Thali />)}
+          <ReadySignal onReady={onReady} />
+        </Suspense>
         <ContactShadows position={[0, -0.62, 0]} opacity={0.6} scale={8} blur={2.6} far={3} resolution={lite ? 256 : 512} color="#000000" />
       </group>
     </>

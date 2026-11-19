@@ -118,3 +118,10 @@ export const GALLERY: GalleryImage[] = [
 ];
 
 export const IMAGES = { heroDosa, dosaTawa, filterCoffee, thali, coffeePour, interior, benneDosa };
+
+/** Which signature dishes star in the Three Acts opening, and their act titles. */
+export const DISH_ACTS: Partial<Record<string, { numeral: string; title: string }>> = {
+  "benne-masala-dosa": { numeral: "I", title: "The crackle" },
+  "chettinad-chicken-biryani": { numeral: "II", title: "The aroma" },
+  "traditional-thali-meal": { numeral: "III", title: "The feast" },
+};
